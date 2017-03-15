@@ -47,7 +47,7 @@ std::vector<std::pair<char,char>> zhankai(std::vector<std::pair<char,char>> a,st
 		int vall=0;
 		for(int i=0; i<d;) {
 			for(int v=0; v<c; ++v) {
-				if(a[i*c+v].second=='0') {
+				if(a[i*c+v].second==' ') {
 					if(i>=1)
 						if(a[(i-1)*c+v].first=='c') {
 							a[(i-1)*c+v].first='o';
