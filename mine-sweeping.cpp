@@ -35,7 +35,7 @@ char pi(int a)
 	if(a==8)
 		return '8';
 	if(a==9)
-		return '9';
+		return '#';
 	if(a==0)
 		return ' ';
 }
@@ -113,12 +113,12 @@ int sf(std::vector<std::pair<char,char>>& a,std::vector<int> b,unsigned c,unsign
 	int ll=0;
 	for(int i=0; i<d; ++i) {
 		for(int v=0; v<c; ++v) {
-			if(a[i*c+v].second=='9'){
+			if(a[i*c+v].second=='#'){
 				for(int y=0;y<d;++y){
 					for(int x=0;x<c;++x){
 						if(b[y*c+x]==9){
 							a[y*c+x].first='o';
-							a[y*c+x].second='9';
+							a[y*c+x].second='#';
 						}
 					}
 				}
@@ -252,6 +252,8 @@ int saolei(unsigned a,unsigned b,unsigned c)
 			}
 		}
 	}
+	ks[yll*longth+xll].first='o';
+	ks[yll*longth+xll].second=pi(bk[yll*longth+xll]);
 	while(true) {
 		clock.reset();
 		darwin::runtime.fit_drawable();
