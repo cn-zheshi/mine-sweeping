@@ -1,14 +1,15 @@
 #define DARWIN_FORCE_BUILTIN
+#define DARWIN_DISABLE_LOG
 #include "./darwin/headers/darwin.hpp"
 #include <string>
+#include <cctype>
 #include <iostream>
 #include <vector>
 #include <utility>
 #include <random>
 #include <ctime>
 darwin::picture paint;
-darwin::colors cao(int a)
-{
+darwin::colors cao(int a){
 	if(a==0)
 		return darwin::colors::white;
 	if(a==1)
@@ -16,8 +17,7 @@ darwin::colors cao(int a)
 	if(a==-1)
 		return darwin::colors::red;
 }
-char pi(int a)
-{
+char pi(int a){
 	if(a==1)
 		return '1';
 	if(a==2)
@@ -103,7 +103,6 @@ std::vector<std::pair<char,char>> zhankai(std::vector<std::pair<char,char>> a,st
 		if(hhhh==vall)
 			aaa=false;
 		hhhh=vall;
-
 	}
 	return a;
 }
@@ -141,7 +140,7 @@ int sf(std::vector<std::pair<char,char>>& a,std::vector<int> b,unsigned c,unsign
 		return 1;
 	return 0;
 }
-int saolei(unsigned a,unsigned b,unsigned c)
+int saolei(unsigned a,unsigned b,int c)
 {
 	darwin::runtime.load("./darwin.module");
 	auto pic=darwin::runtime.get_drawable();
@@ -149,18 +148,15 @@ int saolei(unsigned a,unsigned b,unsigned c)
 	darwin::pixel wz('*', true,false, darwin::colors::blue,darwin::colors::white);
 	darwin::pixel die(' ', true,false, darwin::colors::red,darwin::colors::red);
 	darwin::pixel win(' ', true,false, darwin::colors::green,darwin::colors::green);
-	darwin::pixel end(' ', true,false, darwin::colors::red,darwin::colors::white);
 	darwin::sync_clock clock(30);
-	unsigned longth(a),weith(b),ls(c);
-	int leishu(0),cao1(0),x(0),y(0);
+	unsigned longth(a),weith(b);
+	int leishu(0),cao1(0),x(0),y(0),ls(c);
 	int xll,yll;
 	bool lose=true;
 	std::vector<int> bk(longth*weith,0);
 	std::vector<std::pair<char,char>> ks(longth*weith);
 	std::string str0="Please use \"wsad\" to move";
 	std::string str1="\"j\" to open \"k\" to unsign \"l\" to sign";
-	if((weith==1||longth==1)||(longth*weith-1)<ls)
-		return 0;
 	for(unsigned i=0; i<(longth*weith); ++i) {
 		bk[i]=0;
 		ks[i].first='c';//c->close o->open s->sign
@@ -180,7 +176,7 @@ int saolei(unsigned a,unsigned b,unsigned c)
 		pic->draw_string(0,pic->get_height()-2,str0,darwin::pixel(' ',true,false,darwin::colors::blue,darwin::colors::white));
 		pic->draw_string(0,pic->get_height()-1,str1,darwin::pixel(' ',true,false,darwin::colors::blue,darwin::colors::white));
 		if(darwin::runtime.is_kb_hit()) {
-			switch(darwin::runtime.get_kb_hit()) {
+			switch(std::tolower(darwin::runtime.get_kb_hit())) {
 			case'w':
 				if(y>0)
 					--y;
@@ -266,7 +262,7 @@ int saolei(unsigned a,unsigned b,unsigned c)
 		if(lose)
 			paint.draw_pixel(x,y,wz);
 		if(darwin::runtime.is_kb_hit()&&lose) {
-			switch(darwin::runtime.get_kb_hit()) {
+			switch(std::tolower(darwin::runtime.get_kb_hit())) {
 			case'w':
 				if(y>0)
 					--y;
@@ -397,11 +393,23 @@ int saolei(unsigned a,unsigned b,unsigned c)
 	}
 	return 0;
 }
-int main()
-{
-	unsigned ls1,ls2,ls3;
+int main(){
+	unsigned ls1(10),ls2(10);
+	int ls3(10);
 	std::cout<<"Please enter length weith leishu"<<std::endl;
 	std::cin>>ls1>>ls2>>ls3;
+	if(ls1<10)
+		ls1=10;
+	if(ls2<10)
+		ls2=10;
+	if(ls1>32)
+		ls1=32;
+	if(ls2>24)
+		ls2=24;
+	if(ls3>90)
+		ls3=90;
+	if(ls3<10)
+		ls3=10;
 	paint.resize(ls1,ls2);
 	saolei(ls1,ls2,ls3);
 	return 0;
